@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {Link} from 'react-router-dom'
 // import debounce from 'lodash'
+import noimage from './noimage.png'
 import axios from 'axios'
 import './App.css';
 
@@ -35,6 +36,10 @@ class App extends Component {
       })
     }
     this.setState({isLoading:false})
+  }
+  img = {
+    height : "175px",
+    width : "175px"
   }
 
   // componentDidMount = () => {
@@ -73,10 +78,15 @@ class App extends Component {
     
     {(books && books.length >= 1) && 
         books.map((b,i) => {
+        console.log(typeof b.imageLinks)
         return (
           <div key={`${b.title}-${i}`}>
             <Link to={`/book/${b.id}`}>
-              <img src={b.imageLinks.thumbnail} alt={b.title}></img>
+              {(b.imageLinks === undefined || b === undefined || b.imageLinks.thumbnail ===  undefined) ?
+                <img src={noimage} alt ="Missing" style={this.img}></img>
+              :
+
+              <img src={b.imageLinks.thumbnail} alt={b.title}></img>}
             </Link>
             <p>{b.title}</p>
           </div>
