@@ -1,27 +1,89 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
+import React, {Component} from 'react'
+import {Link} from 'react-router-dom'
+// import debounce from 'lodash'
+import axios from 'axios'
 import './App.css';
 
 class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+  state = {
+      books: [],
+      isLoading : false,
+      hasError : false,
+      userInput :''
+  }
+
+  filter = userInput => {
+    console.log(userInput)
+    this.setState({userInput:userInput})
+    this.getData(userInput)
+  }
+  
+  getData = async userInput => {
+    this.setState({isLoading:true})
+    if(userInput.length >= 2){
+      await axios.get(`http://localhost:7000/books/search/${userInput}`)
+      .then(resp => {
+        console.log(resp.data.books)
+        this.setState({
+          books:[...resp.data.books]
+        })
+        
+      })
+      .catch(error => {
+        console.log(error)
+        this.setState({hasError:true, isLoading:false})
+      })
+    }
+    this.setState({isLoading:false})
+  }
+
+  // componentDidMount = () => {
+  //   this.getData(this.state.userInput)
+  // }
+
+ render(){
+  const {isLoading, hasError, books, userInput} = this.state
+  if(books.length >= 1) console.log("live books",books)
+  return isLoading ? (
+    <div className="App">
+      <div className="spinner"></div>
+      <div className="App loading">
+        <p><i>loading...</i></p>
       </div>
-    );
+    </div>
+  )
+  : hasError ? (
+    <div className="App loading-error">
+      &#x26A0; There is a network issue: Please try again later
+    </div>
+  )
+  :
+  (
+    <div className="App">
+    <div className="Search">
+      <input
+        type="search"
+        placeholder="Search..."
+        aria-label="Search"
+        className="search"
+        value={userInput}
+        onChange={e => this.filter(e.target.value)}
+      />
+    </div>
+    
+    {(books && books.length >= 1) && 
+        books.map((b,i) => {
+        return (
+          <div key={`${b.title}-${i}`}>
+            <Link to={`/book/${b.id}`}>
+              <img src={b.imageLinks.thumbnail} alt={b.title}></img>
+            </Link>
+            <p>{b.title}</p>
+          </div>
+        )}
+      )}         
+    </div>
+  );
   }
 }
 
