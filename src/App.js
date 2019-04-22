@@ -5,50 +5,58 @@ import noimage from './noimage.png'
 import axios from 'axios'
 import './App.css';
 
-class App extends Component {
-  state = {
-      books: [],
-      isLoading : false,
-      hasError : false,
-      userInput :''
-  }
+class App extends Component{
 
-  filter = userInput => {
-    console.log(userInput)
-    this.setState({userInput:userInput})
-    this.getData(userInput)
+  state = {
+    books: [],
+    hasError: false,
+    searchTerm: '',
+    isLoading: false
+  }
+  // const [books,setBooks] = useState([])
+  // const [isLoading,setIsLoading] = useState(false)
+  // const [hasError,setHasError] = useState(false)
+  // const [searchTerm,setSearchTerm] = useState('')
+  // console.log("props",(props.history.location.pathname))
+  input = str => {
+    console.log(str)
+    this.setState({searchTerm:str})
+    this.getData(str)
   }
   
-  getData = async userInput => {
-    this.setState({isLoading:true})
-    if(userInput.length >= 2){
-      await axios.get(`http://localhost:7000/books/search/${userInput}`)
+  getData = async () => {
+    const {searchTerm} = this.state
+    if(searchTerm && searchTerm.length >= 2){
+      this.setState({isLoading:true})
+      await axios.get(`http://localhost:7000/books/search/${searchTerm}`)
       .then(resp => {
         console.log(resp.data.books)
-        this.setState({
-          books:[...resp.data.books]
-        })
-        
+        this.setState({books:[...resp.data.books]})
+        //props.history.push(searchTerm)
       })
       .catch(error => {
         console.log(error)
-        this.setState({hasError:true, isLoading:false})
+        this.setState({hasError:true,isLoading:false})
       })
     }
     this.setState({isLoading:false})
   }
+  
   img = {
     height : "175px",
     width : "175px"
   }
 
-  // componentDidMount = () => {
-  //   this.getData(this.state.userInput)
-  // }
+  // useEffect(() =>{
+  //     setTimeout(() => getData(),2250)
+  // },[])
 
- render(){
-  const {isLoading, hasError, books, userInput} = this.state
-  if(books.length >= 1) console.log("live books",books)
+  componentDidMount = () =>{
+    setTimeout(() => this.getData(),2250)
+  }
+  render(){
+    const {isLoading, hasError, books, searchTerm} = this.state
+    console.log(this.props)
   return isLoading ? (
     <div className="App">
       <div className="spinner"></div>
@@ -65,36 +73,44 @@ class App extends Component {
   :
   (
     <div className="App">
-    <div className="Search">
-      <input
-        type="search"
-        placeholder="Search..."
-        aria-label="Search"
-        className="search"
-        value={userInput}
-        onChange={e => this.filter(e.target.value)}
-      />
-    </div>
-    
-    {(books && books.length >= 1) && 
+      <div className="search">
+        <div className="container">
+          <div className="content">
+              <input
+                type="search"
+                placeholder="Search..."
+                aria-label="Search"
+                className="search-form"
+                value={searchTerm}
+                onChange={e => this.input(e.target.value)}
+              />
+          </div>
+        </div>
+      </div>
+
+    {
+      (books && books.length >= 1) && 
         books.map((b,i) => {
         console.log(typeof b.imageLinks)
         return (
-          <div key={`${b.title}-${i}`}>
+          <div key={`${b.title}-${i}`} className="search-book">
             <Link to={`/book/${b.id}`}>
-              {(b.imageLinks === undefined || b === undefined || b.imageLinks.thumbnail ===  undefined) ?
-                <img src={noimage} alt ="Missing" style={this.img}></img>
+              {
+                (b.imageLinks === undefined || b === undefined || b.imageLinks.thumbnail ===  undefined) ?
+                  <img src={noimage} alt ="Missing" style={this.img}></img>
               :
-
-              <img src={b.imageLinks.thumbnail} alt={b.title}></img>}
+                  <img src={b.imageLinks.thumbnail} alt={b.title}></img>
+              }
             </Link>
             <p>{b.title}</p>
+            <hr/>
           </div>
         )}
-      )}         
+      )
+    }         
     </div>
-  );
-  }
+  ) 
+  } 
 }
 
 export default App;
