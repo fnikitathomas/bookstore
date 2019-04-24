@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {BrowserRouter as Router, Route, Redirect, Switch} from 'react-router-dom'
 import BookDetails from './BookDetails'
+import BookShelf from './BookShelf'
 import NavBar from './NavBar'
 import './index.css';
 import App from './App';
@@ -15,6 +16,7 @@ ReactDOM.render(
                 <Redirect exact from="/" to="/search" component={App} />
                 <Route path="/search" component={App} />
                 <Route path="/book/:bookId" component={BookDetails} />
+                <Route path="/bookshelf" component={BookShelf} />
             </Switch>
         </Router>
     )

@@ -23,6 +23,12 @@
   color: grey;
 }
 
+.sel-x {
+  width: 15%;
+  margin-left: 42.5%;
+  font-size: .8rem;
+}
+
 .info {
   float: left;
   margin-left: 3%;
