@@ -13,6 +13,34 @@
 /* .loading {
   padding-left: 47.5%;
 } */
+.image {
+  float: left;
+  margin-left: 40%;
+  color: #9b59b6;
+}
+
+.sel {
+  color: grey;
+}
+
+.info {
+  float: left;
+  margin-left: 3%;
+  text-align: left;
+}
+
+.desc {
+  float: left;
+  clear: both;
+  margin-left: 5%;
+  margin-right: 5%;
+  text-align: justify;
+}
+
+.bg {
+
+  color: goldenrod;
+}
 
 .search {
   width: 100%;
