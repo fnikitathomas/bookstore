@@ -1,68 +1,39 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## BookStore App
 
 ## Available Scripts
 
-In the project directory, you can run:
+In order to run the application you must first start the REST Api server which is found the project directory, navigate to the `server` folder and run the following in a terminal:
 
-### `npm start`
+### `yarn install`
+### `yarn start`
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Navigate back to the base folder of the project and again install and start the development server:
+### `yarn install`
+### `yarn start`<br>
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+Ensure you have an internet connection, then open a browser to [http://localhost:3000](http://localhost:3000) to view the application.
 
-### `npm test`
+## Usage and Elements
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+In the search input element you must type at least (3) characters before the application will respond. The UI is minimal, however given the data source much more can be accomplished. The UI consists of four React components each of which is specialized for its intended View:
 
-### `npm run build`
+    App.js - a search component for additional books
+    BookDetails.js - a component for an individual book
+    BookShelf.js - which holds the user's collection
+    NavBar.js - which has limited navigation to the search and bookshelf
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Most user interaction is accomplished with clicking upon either a book image, a link or a select element. Given that nothing is perfect, at times an image or field in the data is missing but the user is notified by seeing placeholders.
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+## Libraries Used
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Aside from the obvious ReactJS the other libraries include are:
 
-### `npm run eject`
+    react-router-dom - for routing the views
+    axios - for AJAX requests
+    react-select - for a consistent UI element across the views that use it.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Future maintainence
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+I intend to update this repo until I am satisfied with the quality of both the application logic and visual elements. Well that's about all I can say. Take care for now.
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+N.

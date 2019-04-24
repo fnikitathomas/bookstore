@@ -4,7 +4,7 @@ import noimage from './noimage.png'
 import axios from 'axios'
 import './App.css';
 
-class App extends Component{
+class App extends Component{ // Left as a class Component artifact to symbolize...
 
   state = {
     books: [],

@@ -10,7 +10,7 @@ const BookShelf = (props) => {
   const [shelf, setShelf] = useState('')
   const [shelves, setShelves] = useState([])
   const [hasError, setHasError] = useState(false)
-  const [isLoading, setIsLoading] = useState
+  const [isLoading, setIsLoading] = useState(false)
 
   const shelvesN = [
     { label: "Want to Read", value: "wantToRead"},
@@ -23,25 +23,18 @@ const BookShelf = (props) => {
       setIsLoading(true)
     await axios.get("http://localhost:7000/bookshelf/")
           .then(resp => {
-            console.log(resp.data.books)
             setIsLoading(false)
             setBooks({...resp.data.books})
             setShelves([...Object.keys(resp.data.books)])
-            // this.setState({isLoading : false,
-            //                books : {...resp.data.books},
-            //                shelves : [...Object.keys(resp.data.books)]
-            //               })
           })
           .catch(error => {
             console.log(error)
             setHasError(true)
             setIsLoading(false)
-            // this.setState({hasError : true, isLoading : false})
           })
   }
 
   const changeShelf = async (shelf, bookId) => {
-      
     await axios.get(`http://localhost:7000/bookshelf/update/${bookId}/${shelf}`)
     .then(resp => {
         setShelf(shelf)
@@ -51,9 +44,11 @@ const BookShelf = (props) => {
         setHasError(true)
     })
   }
+
   useEffect(() =>{
     setTimeout(() => getData(),1500)
-},[shelf])
+    }
+    ,[shelf])
 
     return isLoading ? (
       <div className="App">
@@ -71,34 +66,34 @@ const BookShelf = (props) => {
     :
     (
       <div className="App" key={`op - ${Math.floor(Math.random() * 110)}`}>
-      
-        <>
-        {shelves.map(s => {
-          return (
-           books[s].map((b,i) => {
+        {shelves.map((s,idx) => {
             return (
-                <>
-                <h2>{((this.shelvesN.filter(o => o.value === s)))[0].label}</h2>
-                <div key={`${s}-${i}`}>
-                    <Link to={`/book/${b.id}`}>
-                    <img src={b.imageLinks.thumbnail} alt={b.title}></img>
-                    </Link>
-                    <Select className="sel-x"
-                            placeholder="Choose a bookshelf..."
-                            value={""}
-                            options={shelvesN}
-                            onChange={opt => changeShelf(opt.value,b.id)}
-                    />
-                </div>
-                </>
-            )
-          })
-          )
-        })}
-        </>
-      </div>
+            <div key={idx}>
+            {books[s].map((b,i) => {
+                return (
+                    <div key={`${idx}-${i}`}>
+                        <h2>{((shelvesN.filter(o => o.value === s)))[0].label}</h2>
+                        <div >
+                            <Link to={`/book/${b.id}`}>
+                            <img src={b.imageLinks.thumbnail} alt={b.title}></img>
+                            </Link>
+                            <Select className="sel-x"
+                                    placeholder="Choose a bookshelf..."
+                                    value={""}
+                                    options={shelvesN}
+                                    onChange={opt => changeShelf(opt.value,b.id)}
+                            />
+                        </div>
+                    </div>
+                )
+            })
+            }
+            </div>
+        )
+     })
+     }
+     </div>
     )
-  
 }
 
 export default BookShelf;

@@ -41,7 +41,6 @@ const BookDetails = (props) => {
         setIsLoading(true)
         await axios.get(`http://localhost:7000/book/${bookId}`)
             .then(resp => {
-                console.log(resp)
                 setBook(resp.data.book)
             })
             .catch(error => {
@@ -73,22 +72,22 @@ const BookDetails = (props) => {
       ( <>
         <div className="App ">
         {
-              <div key={`${book.title}`}>
+              <div key={`${0}`}>
                 <div className="image ">
                   {
-                    (book.imageLinks === undefined || book === undefined || book.imageLinks.thumbnail ===  undefined) ?
+                    (book === undefined || book.imageLinks === undefined || book.imageLinks.thumbnail ===  undefined) ?
                       <img src={noimage} alt ="Missing" style={img}></img>
                   :
                       <img src={book.imageLinks.thumbnail} alt={book.title}></img>
                   }
-                  <p><em>Rating: {book.averageRating}</em></p>
+                  <p><em>Rating: {book === undefined ? 'Not available' : book.averageRating}</em></p>
                 </div>
                 <div className="info bg">
-                  <h3>{book.title}</h3>
-                  <p><em>{book.subtitle}</em></p>                  
-                  <p>Author(s): {book.authors}</p>
-                  <p>Publisher: {book.publisher}</p>
-                  <p>Bookshelf: {book.shelf}</p>
+                  <h3>{book === undefined ? 'Not available' : book.title}</h3>
+                  <p><em>{book === undefined ? 'Not available' :book.subtitle}</em></p>                  
+                  <p>Author(s): {book === undefined ? 'Not available' :book.authors}</p>
+                  <p>Publisher: {book === undefined ? 'Not available' :book.publisher}</p>
+                  <p>Bookshelf: {book === undefined ? 'Not available' :book.shelf}</p>
                   <Select className="sel"
                           placeholder="Choose a bookshelf..."
                           value={bookShelf}
@@ -101,7 +100,7 @@ const BookDetails = (props) => {
         </div>
         <div className="App desc">
           <em><h4>Description: </h4></em>
-          <p>{book.description}</p>
+          <p>{book === undefined ? 'Not available' :book.description}</p>
         </div>  
         </>
       )
