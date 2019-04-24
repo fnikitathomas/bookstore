@@ -2,7 +2,7 @@
 
 ## Available Scripts
 
-In order to run the application you must first start the REST Api server which is found the project directory, navigate to the `server` folder and run the following in a terminal:
+In order to run the application you must first start the REST Api server which gives both live and cached search results and can be found in the project directory. Navigate to the `server` folder and run the following in a terminal:
 
 ### `yarn install`
 ### `yarn start`
